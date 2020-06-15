@@ -1,0 +1,9 @@
+2020-06-15T10:33:43.499Z [winston-test] info: Complete Loaded
+2020-06-15T10:35:38.802Z [winston-test] info: Complete Loaded
+2020-06-15T10:35:38.808Z [winston-test] info: Started http://localhost:9000/
+2020-06-15T10:45:47.623Z [winston-test] error: Complete Loaded
+2020-06-15T10:45:47.623Z [winston-test] info: Complete Routes
+2020-06-15T10:45:47.639Z [winston-test] info: Started http://localhost:9000/
+2020-06-15T10:46:35.622Z [winston-test] info: Complete Loaded
+2020-06-15T10:46:35.622Z [winston-test] info: Complete Routes
+2020-06-15T10:46:35.622Z [winston-test] info: Started http://localhost:9000/
