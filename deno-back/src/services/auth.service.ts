@@ -1,11 +1,19 @@
-import { Context } from "https://deno.land/x/oak/mod.ts";
+import { Context, Response } from "https://deno.land/x/oak/mod.ts";
 import db from "../configs/database.ts";
 import { hash } from "https://deno.land/x/argon2/lib/mod.ts";
 import { encode } from "https://deno.land/std/encoding/utf8.ts";
 import { registeSQL } from "../configs/sql.ts";
 
 /**
+ * ? 로그인
+ */
+export const login = async (ctx: Context, next: any) => {
+};
+
+/**
+ * ? 회원가입
  * todo: 비밀번호 암호화
+ * ! return response
  */
 export const register = async (ctx: Context) => {
   const { password, name, email } = (await ctx.request.body()).value;

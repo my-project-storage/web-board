@@ -6,7 +6,7 @@ const logger = require('./utils/logger');
 function server(app) {
     expressLoader(app);
     expressRouter(app);
-    app.listen(9000, () => {
+    app.listen(3333, () => {
         logger.info(`Started http://localhost:9000/`);
     });
 }
