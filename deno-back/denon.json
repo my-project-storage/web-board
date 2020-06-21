@@ -1,0 +1,8 @@
+{
+    "$schema": "https://deno.land/x/denon/schema.json",
+    "unstable": true,
+    "allow": ["env", "net", "read", "write", "run", "plugin"],
+    "scripts": {
+        "start": "src/app.ts"
+    }
+}
