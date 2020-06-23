@@ -12,5 +12,5 @@ await router(app);
 // not found
 app.use(notFoundMiddleware);
 
-Log.info("START", `Listening on: ${port}`);
+Log.info("StarT Server", `Listening on: ${port}`);
 await app.listen({ port });

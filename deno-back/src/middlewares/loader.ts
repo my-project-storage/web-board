@@ -8,7 +8,7 @@ export default async (app: any) => {
     Log.error("DB Error");
     throw new Error("DB Error");
   }
-  app.use(organ("dev"));
+  app.use(organ());
   Log.info("Oak", "Oak Loaded");
 };
 

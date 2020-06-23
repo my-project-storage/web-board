@@ -1,5 +1,3 @@
-import "https://deno.land/x/dotenv/load.ts";
-
 export default {
   hostname: Deno.env.get("DB_HOST"),
   username: Deno.env.get("DB_USER"),
