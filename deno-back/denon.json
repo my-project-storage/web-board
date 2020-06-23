@@ -3,6 +3,6 @@
     "unstable": true,
     "allow": ["env", "net", "read", "write", "run", "plugin"],
     "scripts": {
-        "start": "src/app.ts"
+        "start": "src/server.ts"
     }
 }
