@@ -1,9 +1,8 @@
 export default {
   // ! select
-  getUserById:
-    "SELECT id, email, name, createdat, updatedat FROM user WHERE id=?",
+  getUserById: "SELECT * FROM user WHERE id=?",
   getUserPasswordById: "SELECT password FROM user WHERE id=?",
-  getUserByEmail: "SELECT email FROM user WHERE email=?",
+  getUserByEmail: "SELECT * FROM user WHERE email=?",
 
   // ! update
   updateUserById: "UPDATE user SET email=?, name=? WHERE id=?",

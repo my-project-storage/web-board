@@ -15,9 +15,11 @@ export default {
       if (!result) {
         response.status = 404;
         response.body = { success: false, message: "not exists" };
+        return;
       } else {
         response.status = 200;
         response.body = { success: true, user: result[0] };
+        return;
       }
     } catch (err) {
       errorRes(response, err.message);
@@ -46,6 +48,7 @@ export default {
         success: true,
         user: await db.query(SQL.getUserById, [params.id]),
       };
+      return;
     } catch (err) {
       errorRes(response, err.message);
     }
@@ -76,6 +79,7 @@ export default {
       }
       response.status = 400;
       response.body = { success: false, message: "password is different" };
+      return;
     } catch (err) {
       errorRes(response, err.message);
     }
@@ -116,6 +120,7 @@ export default {
         success: true,
         user: (await db.query(SQL.getUserById, [insertId])),
       };
+      return;
     } catch (err) {
       errorRes(response, err.message);
     }
@@ -152,6 +157,7 @@ export default {
       }
       response.status = 400;
       response.body = { success: false, message: "password is different" };
+      return;
     } catch (err) {
       errorRes(response, err.message);
     }
