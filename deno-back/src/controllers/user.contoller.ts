@@ -27,6 +27,7 @@ export default {
   /**
    * @description Update my profile by id
    * @route PUT /users/:id
+   * @body {email, name}
    */
   modify: async ({ params, request, response }: RouterContext) => {
     if (!request.hasBody) {
@@ -53,6 +54,7 @@ export default {
   /**
    * @description Update my password by id
    * @route PUT /users/password/:id
+   * @body {newPassword, password}
    */
   modifyPassword: async ({ params, request, response }: RouterContext) => {
     if (!request.hasBody) {
@@ -62,6 +64,18 @@ export default {
     }
     try {
       const values = (await request.body()).value;
+      const hashPw =
+        (await db.query(SQL.getUserPasswordById, [params.id]))[0].password;
+      if (await bcrypt.compare(values.password, hashPw)) {
+        const salt = bcrypt.genSaltSync(Number(Deno.env.get("SALT")));
+        const newHashPw = bcrypt.hashSync(values.newPassword, salt);
+        await db.execute(SQL.updateUserPasswordById, [newHashPw, params.id]);
+        response.status = 200;
+        response.body = { success: true, message: "logout" };
+        return;
+      }
+      response.status = 400;
+      response.body = { success: false, message: "password is different" };
     } catch (err) {
       errorRes(response, err.message);
     }
@@ -70,6 +84,7 @@ export default {
   /**
    * @description Add a new user
    * @route POST /users
+   * @body {email, name, password}
    */
   register: async ({ request, response }: RouterContext) => {
     // todo: 409 에러 추가하기
@@ -80,7 +95,12 @@ export default {
     }
     try {
       const values = (await request.body()).value;
-      const salt = bcrypt.genSaltSync(10);
+      if ((await db.query(SQL.getUserByEmail, [values.email])).length !== 0) {
+        response.status = 409;
+        response.body = { success: false, message: "Email duplicates" };
+        return;
+      }
+      const salt = bcrypt.genSaltSync(Number(Deno.env.get("SALT")));
       const hashPw = bcrypt.hashSync(values.password, salt);
       const insertId = (await db.execute(
         SQL.createUser,
@@ -104,6 +124,36 @@ export default {
   /**
    * @description Delete user by id
    * @route DELETE /user/:id
+   * @body {password}
    */
-  withdraw: async () => {},
+  withdraw: async ({ params, request, response }: RouterContext) => {
+    if (!request.hasBody) {
+      response.status = 400;
+      response.body = { success: false, message: "body is not exists" };
+      return;
+    }
+    try {
+      const values = (await request.body()).value;
+      const hashPw =
+        (await db.query(SQL.getUserPasswordById, [params.id]))[0].password;
+      if (await bcrypt.compare(values.password, hashPw)) {
+        const result =
+          (await db.execute(SQL.deleteUserById, [params.id])).affectedRows! > 0
+            ? true
+            : false;
+        if (result) {
+          response.status = 200;
+          response.body = { success: result };
+          return;
+        }
+        response.status = 400;
+        response.body = { success: result };
+        return;
+      }
+      response.status = 400;
+      response.body = { success: false, message: "password is different" };
+    } catch (err) {
+      errorRes(response, err.message);
+    }
+  },
 };
