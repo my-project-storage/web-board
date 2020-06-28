@@ -25,12 +25,13 @@ export default {
     const authorization = headers.get("Authorization");
     if (!authorization) {
       response.status = 401;
+      response.body = { message: "Authorization is not in header" };
       return;
     }
     const jwt = authorization.split(" ")[1];
-
     if (!jwt) {
       response.status = 401;
+      response.body = { message: "jwt is not in header" };
       return;
     }
     const key = Deno.env.get("JWT_SECRET")! as string;
