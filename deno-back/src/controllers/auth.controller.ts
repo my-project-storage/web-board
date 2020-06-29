@@ -37,13 +37,10 @@ export default {
     const key = Deno.env.get("JWT_SECRET")! as string;
     const user = await validateJwt(jwt, key, { isThrowing: false });
     if (user) {
-      const isUser = user.payload!.userId == params.id ? true : false;
-      if (isUser) {
-        await next();
-        return;
-      }
+      request.headers.set("USER", `${user.payload!.userId}`);
+      await next();
+      return;
     }
-
     response.status = 401;
     response.body = { message: "Invalid jwt token" };
   },
