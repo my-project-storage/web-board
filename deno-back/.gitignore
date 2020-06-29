@@ -1,5 +1,2 @@
 # env
 .env
-
-# SQL
-src/configs/sql.ts
