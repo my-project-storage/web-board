@@ -9,7 +9,12 @@ export default {
    * @description Get my profile by id
    * @route GET /users/:id
    */
-  profile: async ({ params, response }: RouterContext) => {
+  profile: async ({ params, request, response }: RouterContext) => {
+    if (params.id !== request.headers.get("USER")) {
+      response.status = 401;
+      response.body = { success: false, message: "access denied" };
+      return;
+    }
     try {
       const result = await db.query(SQL.getUserById, [params.id]);
       if (!result) {
@@ -32,6 +37,11 @@ export default {
    * @body {email, name}
    */
   modify: async ({ params, request, response }: RouterContext) => {
+    if (params.id !== request.headers.get("USER")) {
+      response.status = 401;
+      response.body = { success: false, message: "access denied" };
+      return;
+    }
     if (!request.hasBody) {
       response.status = 400;
       response.body = { success: false, message: "body is not exists" };
@@ -60,6 +70,11 @@ export default {
    * @body {newPassword, password}
    */
   modifyPassword: async ({ params, request, response }: RouterContext) => {
+    if (params.id !== request.headers.get("USER")) {
+      response.status = 401;
+      response.body = { success: false, message: "access denied" };
+      return;
+    }
     if (!request.hasBody) {
       response.status = 400;
       response.body = { success: false, message: "body is not exists" };
@@ -132,6 +147,11 @@ export default {
    * @body {password}
    */
   withdraw: async ({ params, request, response }: RouterContext) => {
+    if (params.id !== request.headers.get("USER")) {
+      response.status = 401;
+      response.body = { success: false, message: "access denied" };
+      return;
+    }
     if (!request.hasBody) {
       response.status = 400;
       response.body = { success: false, message: "body is not exists" };
